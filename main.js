@@ -25,7 +25,6 @@ common.prototype = {
   initialize : function() {
     form.target = this.target;
     form.action = this.action;
-    form.method = 'get';
     formBtn.addEventListener('click', () => {
       document.cookie = `check=${VALIDATION_OK}`;
       form.submit();
@@ -38,7 +37,6 @@ common.prototype = {
       window.open( 'about:blank', this.nextAction, `top=200,left=300,width=${width},height=${height}` );
       form.target = this.nextAction;
       form.action = this.nextAction;
-      form.method = 'get';
       form.submit();
     } else {
     }
