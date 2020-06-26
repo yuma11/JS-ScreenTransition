@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form name="form">
+    <label>お名前：<input type="text"></label>
+    <br>
+    <label>メール：<input type="text"></label>
+    <input id="sendBtn" type="button" value="送信">
+    <input id="check" type="hidden" value="0">
+  </form>
+
+<script src="main.js"></script>
+<script>
+  let test = new common({
+    target : "_self",
+    action : "index.html",
+    nextAction : "sub.html"
+  });
+
+  test.initialize();
+  test.subWindowOpen(150,150);
+</script>
+</body>
+</html>
