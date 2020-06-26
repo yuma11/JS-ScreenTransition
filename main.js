@@ -1,25 +1,27 @@
 const VALIDATION_OK    = 1;
 const VALIDATION_ERROR = 2;
 
-var form    = document.form;
-var formBtn = document.getElementById('sendBtn');
-var cookies = document.cookie.split(';');
-var check   = 0;
+let form       = document.form;
+let formBtn    = document.getElementById('sendBtn');
+let checkArray = {};
+let checkKey   = "";
+let checkVal   = "";
+
+let cookies = document.cookie.split(';');
 cookies.forEach(function(cookie) {
   cookieArray = cookie.split('=');
-  checkKey       = cookieArray[0];
-  checkVal       = cookieArray[1];
+  checkKey    = cookieArray[0];
+  checkVal    = cookieArray[1];
 })
 
 common = function(param) {
-  var params      = param || {};
+  let params      = param || {};
   this.target     = params.target;
   this.action     = params.action;
   this.nextAction = params.nextAction;
 }
 
 common.prototype = {
-
   initialize : function() {
     form.target = this.target;
     form.action = this.action;
@@ -32,8 +34,9 @@ common.prototype = {
 
   subWindowOpen : function(width, height) {
     if(checkVal == VALIDATION_OK) {
-      document.cookie = `${checkKey}=; max-age=0;`
-      form.target = this.target;
+      document.cookie = `${checkKey}=; max-age=0;`;
+      window.open( 'about:blank', this.nextAction, `top=200,left=300,width=${width},height=${height}` );
+      form.target = this.nextAction;
       form.action = this.nextAction;
       form.method = 'get';
       form.submit();
