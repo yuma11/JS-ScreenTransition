@@ -1,20 +1,18 @@
 const VALIDATION_OK    = 1;
 const VALIDATION_ERROR = 2;
 
+var form    = document.form;
+var formBtn = document.getElementById('sendBtn');
 var cookies = document.cookie.split(';');
+var check   = 0;
 cookies.forEach(function(cookie) {
-  //cookie名と値に分ける
-  var key = cookie.split('=');
-  console.log( key[0] );
+  cookieArray = cookie.split('=');
+  checkKey       = cookieArray[0];
+  checkVal       = cookieArray[1];
 })
 
-let form    = document.form;
-let formBtn = document.getElementById('sendBtn');
-let check   = document.getElementById('check');
-var UiParts = window.UiParts || {};
-
 common = function(param) {
-  let params      = param || {};
+  var params      = param || {};
   this.target     = params.target;
   this.action     = params.action;
   this.nextAction = params.nextAction;
@@ -27,14 +25,14 @@ common.prototype = {
     form.action = this.action;
     form.method = 'get';
     formBtn.addEventListener('click', () => {
-      document.cookie = "check=aaa";
+      document.cookie = `check=${VALIDATION_OK}`;
       form.submit();
     }, false);
   },
 
   subWindowOpen : function(width, height) {
-    if(check.value == VALIDATION_OK) {
-      alert("s");
+    if(checkVal == VALIDATION_OK) {
+      document.cookie = `${checkKey}=; max-age=0;`
       form.target = this.target;
       form.action = this.nextAction;
       form.method = 'get';
