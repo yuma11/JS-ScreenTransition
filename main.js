@@ -3,16 +3,7 @@ const VALIDATION_ERROR = 2;
 
 let form       = document.form;
 let formBtn    = document.getElementById('sendBtn');
-let checkArray = {};
-let checkKey   = "";
-let checkVal   = "";
-
-let cookies = document.cookie.split(';');
-cookies.forEach(function(cookie) {
-  cookieArray = cookie.split('=');
-  checkKey    = cookieArray[0];
-  checkVal    = cookieArray[1];
-})
+let checkKey   = 'check';
 
 common = function(param) {
   let params      = param || {};
@@ -20,26 +11,31 @@ common = function(param) {
   this.action     = params.action;
   this.nextAction = params.nextAction;
 }
-
 common.prototype = {
   initialize : function() {
     form.target = this.target;
     form.action = this.action;
     formBtn.addEventListener('click', () => {
-      document.cookie = `check=${VALIDATION_OK}`;
-      form.submit();
+      let formName   = document.getElementById('formName').value;
+      let formMail   = document.getElementById('formMail').value;
+
+      if(formName && formMail) {
+        localStorage.setItem(checkKey, VALIDATION_OK);
+        form.submit();
+      } else {
+        alert('入力値が不正です。');
+      }
     }, false);
   },
 
   subWindowOpen : function(width, height) {
-    if(checkVal == VALIDATION_OK) {
-      document.cookie = `${checkKey}=; max-age=0;`;
-      window.open( 'about:blank', this.nextAction, `top=200,left=300,width=${width},height=${height}` );
+    if(localStorage.getItem(checkKey) == VALIDATION_OK) {
+      window.open( null, this.nextAction, `top=200,left=300,width=${width},height=${height}` );
       form.target = this.nextAction;
       form.action = this.nextAction;
       form.submit();
+      localStorage.removeItem(checkKey);
     } else {
     }
   }
 }
-
